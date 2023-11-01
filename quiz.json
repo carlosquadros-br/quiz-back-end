@@ -1,0 +1,54 @@
+[
+  {
+    "id": 0,
+    "nivel": 1,
+    "points": 1,
+    "category": "character",
+    "question": "Qual é o nome do cachorro de Scooby-Doo?",
+    "choices": [
+      { "id": 0, "text": "Salsicha", "is_correct": false },
+      { "id": 1, "text": "Fred", "is_correct": false },
+      { "id": 2, "text": "Velma", "is_correct": false },
+      { "id": 3, "text": "Scooby-Doo", "is_correct": true }
+    ]
+  },
+  {
+    "id": 1,
+    "nivel": 1,
+    "points": 1,
+    "category": "character",
+    "question": "Qual é o nome do personagem principal do desenho animado Os Simpsons?",
+    "choices": [
+      { "id": 0, "text": "Bart Simpson", "is_correct": false },
+      { "id": 1, "text": "Lisa Simpson", "is_correct": false },
+      { "id": 2, "text": "Homer Simpson", "is_correct": true },
+      { "id": 3, "text": "Maggie Simpson", "is_correct": false }
+    ]
+  },
+  {
+    "id": 2,
+    "nivel": 3,
+    "points": 3,
+    "category": "character",
+    "question": "Qual é o nome do vilão principal do desenho animado O Rei Leão?",
+    "choices": [
+      { "id": 0, "text": "Scar", "is_correct": true },
+      { "id": 1, "text": "Mufasa", "is_correct": false },
+      { "id": 2, "text": "Simba", "is_correct": false },
+      { "id": 3, "text": "Nala", "is_correct": false }
+    ]
+  },
+  {
+    "id": 3,
+    "nivel": 3,
+    "points": 3,
+    "category": "object",
+    "question": "Qual é o nome da nave espacial do desenho animado Os Jetsons?",
+    "choices": [
+      { "id": 0, "text": "Astronave Jetson", "is_correct": true },
+      { "id": 1, "text": "Astronave Futuro", "is_correct": false },
+      { "id": 2, "text": "Astronave Família Jetson", "is_correct": false },
+      { "id": 3, "text": "Astronave Jetsons 2000", "is_correct": false }
+    ]
+  }
+]
