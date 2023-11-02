@@ -19,3 +19,11 @@ class Question:
             'question_text': self.question_text,
             'choices': choices_dict_list,
         }
+    
+    def get_correct_choice(self):
+        for choice in self.choices:
+            if choice.is_correct:
+                return choice
+    
+    def is_correct(self, id_choice_selected):
+        return id_choice_selected == self.get_correct_choice().id

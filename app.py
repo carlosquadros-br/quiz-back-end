@@ -1,59 +1,73 @@
 from flask import Flask, jsonify, request
-import json
-import os 
 from flask_cors import CORS
 from question_factory import QuestionFactory
+from quiz import Quiz
 
-class App: 
 
-    def __init__(self):
-        self.app = Flask(__name__)
-        CORS(self.app)
-        self.question_factory = QuestionFactory()
-        print(self.get_url_map())
-
-        @self.app.route("/content")
-        def content():
-            data = self.getContent();
-            questions = []
-            for question_data in data:
-                question = self.question_factory.create_question(
-                    question_data['id'], 
-                    question_data['nivel'], 
-                    question_data['points'], 
-                    question_data['category'], 
-                    question_data['question'], 
-                    question_data['choices']
-                )
-                questions.append(question.to_dict())
-            return jsonify(questions)
-        
-        @self.app.route("/calculate-result",  methods=['POST'])
-        def calculateResult(): 
-            answers = request.data
-            correctAnswers = 0 
-            points = 0 
-            return {
-                points: points,
-            }
-
-    def run(self, debug=True):
-        self.app.run(debug=debug)
-
-    def getContent():
-        json_url = "quiz.json"
-        data = []
-        with open(json_url, 'r') as f:
-            data = json.load(f)
-        return data
-
-    def run(self, debug=True):
-        self.app.run(debug=debug)
-
-    def get_url_map(self):
-        return self.app.url_map
+app = Flask(__name__)
+quiz = Quiz()
     
+@app.route("/content")
+def content():
+    data = quiz.getContent()
+    questions = []
+    for question_data in data:
+        question = quiz.question_factory.create_question(
+            question_data['id'], 
+            question_data['nivel'], 
+            question_data['points'], 
+            question_data['category'], 
+            question_data['question'], 
+            question_data['choices']
+        )
+        questions.append(question.to_dict())
+    return jsonify(questions)
+        
+@app.route("/calculate-result",  methods=['POST'])
+def calculateResult(): 
+    answers = request.get_json()
+    correctAnswers = 0
+    hardAnswers = 0
+    mediumAnswers = 0
+    easyAnswers = 0
+    points = 0 
+    data = quiz.getContent()
+    questions = []
+    for question_data in data:
+        question = quiz.question_factory.create_question(
+            question_data['id'], 
+            question_data['nivel'], 
+            question_data['points'], 
+            question_data['category'], 
+            question_data['question'], 
+            question_data['choices']
+        )
+        questions.append(question)
+
+    questions_dict = {question.id: question for question in questions}
+    for answer in answers:
+       question = questions_dict.get(answer['id'])
+       if question and question.is_correct(answer['choice_selected']['id']):
+            quiz.set_point_strategy(question.nivel)
+            points += quiz.calculate_points()
+            correctAnswers += 1
+            if question.nivel == "Hard":
+               hardAnswers += 1
+            elif question.nivel == "Medium":
+                mediumAnswers += 1
+            elif question.nivel == "Easy":
+                easyAnswers += 1
+
+    return {
+        "points": points,
+        "correct_answers": correctAnswers,
+        "hard_answers": hardAnswers,
+        "medium_answers": mediumAnswers,
+        "easy_answers": easyAnswers
+        }
+
+CORS(app)
+
 if __name__ == '__main__':
-    app = App()
     app.run(debug=True)
     print(app.get_url_map)
