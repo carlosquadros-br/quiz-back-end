@@ -12,6 +12,7 @@ def content():
     data = quiz.getContent()
     questions = []
     for question_data in data:
+
         question = quiz.question_factory.create_question(
             question_data['id'], 
             question_data['nivel'], 
@@ -20,6 +21,9 @@ def content():
             question_data['question'], 
             question_data['choices']
         )
+
+        question = quiz.question_factory.create_question(question_data)
+
         questions.append(question.to_dict())
     return jsonify(questions)
         

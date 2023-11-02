@@ -2,11 +2,15 @@ import json
 from points_strategy import EasyPointsStrategy, HardPointsStrategy, MediumPointsStrategy
 from question_factory import QuestionFactory
 
+# (1) Padrão Singleton
 class Quiz: 
 
     def __init__(self):
         self.question_factory = QuestionFactory()
         self.point_strategy = None
+
+    def __new__(cls):
+        pass
 
     def run(self, debug=True):
         self.app.run(debug=debug)
