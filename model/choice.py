@@ -1,8 +1,8 @@
 class Choice:
-    def __init__(self, id, text, is_correct):
-        self.id = id
-        self.text = text
-        self.is_correct = is_correct
+    def __init__(self, data):
+        self.id = data['id']
+        self.text = data['text']
+        self.is_correct = data['is_correct']
 
     def to_dict(self):
         return {

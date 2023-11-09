@@ -1,10 +1,10 @@
 class Question:
-    def __init__(self, id, nivel, points, category, question_text, choices):
-        self.id = id
-        self.nivel = nivel
-        self.points = points
-        self.category = category
-        self.question_text = question_text
+    def __init__(self, data, choices):
+        self.id = data['id']
+        self.nivel = data['nivel']
+        self.points = data['points']
+        self.category =  data['category']
+        self.question_text = data['question_text']
         self.choices = choices
 
     def to_dict(self):

@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from question_factory import QuestionFactory
-from quiz import Quiz
+from patterns.question_factory_pattern import QuestionFactory
+from model.quiz_singleton_pattern import Quiz
 
 
 app = Flask(__name__)
@@ -12,16 +12,7 @@ def content():
     data = quiz.getContent()
     questions = []
     for question_data in data:
-
-        question = quiz.question_factory.create_question(
-            question_data['id'], 
-            question_data['nivel'], 
-            question_data['points'], 
-            question_data['category'], 
-            question_data['question'], 
-            question_data['choices']
-        )
-
+        
         question = quiz.question_factory.create_question(question_data)
 
         questions.append(question.to_dict())
@@ -38,14 +29,7 @@ def calculateResult():
     data = quiz.getContent()
     questions = []
     for question_data in data:
-        question = quiz.question_factory.create_question(
-            question_data['id'], 
-            question_data['nivel'], 
-            question_data['points'], 
-            question_data['category'], 
-            question_data['question'], 
-            question_data['choices']
-        )
+        question = quiz.question_factory.create_question(question_data)
         questions.append(question)
 
     questions_dict = {question.id: question for question in questions}
@@ -53,7 +37,7 @@ def calculateResult():
        question = questions_dict.get(answer['id'])
        if question and question.is_correct(answer['choice_selected']['id']):
             quiz.set_point_strategy(question.nivel)
-            points += quiz.calculate_points()
+            points += quiz.calculate_points(question.is_correct(answer['choice_selected']['id']))
             correctAnswers += 1
             if question.nivel == "Hard":
                hardAnswers += 1

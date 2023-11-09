@@ -1,16 +1,21 @@
 import json
-from points_strategy import EasyPointsStrategy, HardPointsStrategy, MediumPointsStrategy
-from question_factory import QuestionFactory
+from patterns.points_strategy_pattern import EasyPointsStrategy, HardPointsStrategy, MediumPointsStrategy
+from patterns.question_factory_pattern import QuestionFactory
 
 # (1) Padrão Singleton
 class Quiz: 
+
+    _instance = None
 
     def __init__(self):
         self.question_factory = QuestionFactory()
         self.point_strategy = None
 
     def __new__(cls):
-        pass
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+    
 
     def run(self, debug=True):
         self.app.run(debug=debug)
@@ -35,5 +40,5 @@ class Quiz:
     
 
     
-    def calculate_points(self):
-        return self.point_strategy.calculate_points()
+    def calculate_points(self, acerto):
+        return self.point_strategy.calculate_points(acerto)
